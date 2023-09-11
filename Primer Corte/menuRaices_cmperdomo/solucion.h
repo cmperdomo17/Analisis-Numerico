@@ -60,7 +60,7 @@ namespace raices {
 		
 		void imprimir() {
 			if (std::isnan(raiz)) {
-				cout << "No se pudo obtener la raiz con los datos dados"<<endl;
+				cout << "\nNo se pudo obtener la raiz con los datos dados"<<endl;
 			}else {
 				cout << "\nLa raiz es: " << raiz <<endl;
 				cout << "\nAproximaciones: \n"<< endl;
