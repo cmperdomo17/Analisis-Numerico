@@ -48,7 +48,9 @@ int main () {
 void menu(){
 	int metodo /*!< Opcion menu de metodos*/;
 	int funcion; /*!< Opcion menu de funciones*/
-	string str_f1 = "(e^(~(x^2)))-x";
+	string str_f1 = "(x-3)*(x-1)*(x-1)"; 
+	string strd_f1 = "3*(x^2)-(10*x)+7";
+	//string str_f1 = "(e^(~(x^2)))-x";
 	string str_f2 = "x^3 + 4*(x^2)-10";
 	
 	do{
@@ -95,7 +97,7 @@ void menu(){
 			break;
 			
 		case 3: 	
-			metodo_newton_raphson(str_f1, str_f2);
+			metodo_newton_raphson(str_f1, strd_f1);
 			break;
 		case 4:
 			cout << "Seleccione la funcion a evaluar: " << endl;
@@ -196,7 +198,7 @@ void metodo_secante(string str_f){
 	sol.imprimir();
 }
 
-void metodo_newton_raphson(string str_f1, string str_f2){
+void metodo_newton_raphson(string str_f1, string strd_f1){
 	
 	double x0, tol;
 	int n;
@@ -212,7 +214,7 @@ void metodo_newton_raphson(string str_f1, string str_f2){
 	//Crear una instancia de regla falsa pasando 
 	//la funcion como parametro
 	
-	newton_raphson nr(str_f1, str_f2);
+	newton_raphson nr(str_f1, strd_f1);
 	
 	solucion sol = nr.calcular(x0,tol,n);
 	

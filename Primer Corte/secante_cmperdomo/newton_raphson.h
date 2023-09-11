@@ -36,7 +36,7 @@ namespace raices {
 				solucion sol;
 				
 				//Paso 1
-				int i = 1;
+				int & i = sol.iteraciones = 1;
 				//Paso 2
 				
 				//Validar si el usuario especificifico una raiz
@@ -59,8 +59,7 @@ namespace raices {
 					//Adicionar la aproximacion
 					sol.adicionar({p0, p, erp});
 					
-					if ( es_cero(f(p))  ||
-						erp < tol ) {
+					if (es_cero(f(p))) {
 						//Guardar la raiz
 						sol.raiz = p;
 						//TODO sol.iteraciones = i;
