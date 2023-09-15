@@ -44,6 +44,8 @@ void metodo_newton_raphson(string str_f1, string str_f2);
 
 void metodo_raices_multiples(string str_f1, string strd_f1, string strd2_f1);
 
+void metodo_muller();
+
 int main () {
 	menu();
 	return 0;
@@ -60,21 +62,25 @@ void menu(){
 	
 	do{
 		cout << "\n==============================================================\n" << endl;
-		cout << "1. Metodo de Biseccion " << endl;
-		cout << "2. Regla Falsa" << endl;
-		cout << "3. Newton - Raphson" << endl;
-		cout << "4. Metodo de la Secante" << endl;
-		cout << "5. Newton - Raphson para raices multiples" << endl;
-		cout << "6. Salir" << endl;
-		cout << "Ingrese una opcion: ";
+		cout << "[1]. Metodo de Biseccion " << endl;
+		cout << "[2]. Regla Falsa" << endl;
+		cout << "[3]. Newton - Raphson" << endl;
+		cout << "[4]. Metodo de la Secante" << endl;
+		cout << "[5]. Newton - Raphson para raices multiples" << endl;
+		cout << "[6]. Metodo de Muller" << endl;
+		cout << "[7]. Salir" << endl;
+		cout << "\nIngrese una opcion: ";
 		cin >> metodo;
-		
+		cout << "\n";
+
 		switch(metodo){
 		case 1:
+
+			cout << "\n### Metodo de biseccion ###\n" << endl;
 			cout << "Seleccione la funcion a evaluar: " << endl;
-			cout << "1. " << str_f1 << endl;
-			cout << "2. " << str_f2 << endl;
-			cout << "Ingrese una opcion: ";
+			cout << "\n1. " << str_f1 << endl;
+			cout << "\n2. " << str_f2 << endl;
+			cout << "\nIngrese una opcion: ";
 			cin >> funcion;
 			switch(funcion){
 			case 1:
@@ -87,10 +93,12 @@ void menu(){
 			break;
 			
 		case 2:
+
+			cout << "\n### Metodo de regla Falsa ###\n" << endl;
 			cout << "Seleccione la funcion a evaluar: " << endl;
-			cout << "1. " << str_f1 << endl;
-			cout << "2. " << str_f2 << endl;
-			cout << "Ingrese una opcion: ";
+			cout << "\n1. " << str_f1 << endl;
+			cout << "\n2. " << str_f2 << endl;
+			cout << "\nIngrese una opcion: ";
 			cin >> funcion;
 			switch(funcion){
 			case 1:
@@ -103,13 +111,15 @@ void menu(){
 			break;
 			
 		case 3: 	
+			cout << "\n### Metodo de la secante ###\n" << endl;
 			metodo_newton_raphson(str_f1, strd_f1);
 			break;
 		case 4:
+			cout << "\n### Metodo de Newton - Raphson ###\n" << endl;
 			cout << "Seleccione la funcion a evaluar: " << endl;
 			cout << "1. " << str_f1 << endl;
 			cout << "2. " << str_f2 << endl;
-			cout << "Ingrese una opcion: ";
+			cout << "\nIngrese una opcion: ";
 			cin >> funcion;
 			switch(funcion){
 			case 1:
@@ -121,14 +131,19 @@ void menu(){
 			}			
 			break;
 		case 5: 		
+			cout << "\n### Metodo de Newton - Raphson para raices multiples ###\n" << endl;
 			metodo_raices_multiples(str_f1, strd_f1, strd2_f1);
 			break;
 		case 6: 
-			cout << "Saliendo..." << endl;
+			cout << "\n### Metodo de Muller ###\n" << endl;
+			metodo_muller();
+			break;
+		case 7: 
+			cout << "\nSaliendo..." << endl;
 			exit(0);	
 			break;
 		default:
-			cout << "Opcion invalida" << endl;
+			cout << "\nOpcion invalida" << endl;
 		}
 		
 	}while(metodo != 4);
@@ -139,15 +154,14 @@ void metodo_biseccion(string str_f) {
 	double xa, xb, tol;
 	int n;
 	
-	cout << "Metodo de biseccion" << endl;
-	cout << "Funcion a evaluar: " << str_f << endl;
-	cout << "Ingrese el valor inferior del intervalo: ";
+	cout << "\nFuncion a evaluar: " << str_f << endl;
+	cout << "\nIngrese el valor inferior del intervalo: ";
 	cin >> xa;
-	cout << "Ingrese el valor superior del intervalo: ";
+	cout << "\nIngrese el valor superior del intervalo: ";
 	cin >> xb;
-	cout << "Ingrese la tolerancia (en porcentaje): ";
+	cout << "\nIngrese la tolerancia (en porcentaje): ";
 	cin >> tol;
-	cout << "Ingrese el maximo numero de iteraciones: ";
+	cout << "\nIngrese el maximo numero de iteraciones: ";
 	cin >> n;
 	//Crear una instancia de biseccion pasando 
 	//la funcion como parametro
@@ -164,15 +178,14 @@ void metodo_reglaFalsa(string str_f) {
 	double xi, xs, tol;
 	int n;
 	
-	cout << "Metodo de regla Falsa" << endl;
-	cout << "Funcion a evaluar: " << str_f << endl;
-	cout << "Ingrese el valor inferior del intervalo: ";
+	cout << "\nFuncion a evaluar: " << str_f << endl;
+	cout << "\nIngrese el valor inferior del intervalo: ";
 	cin >> xi;
-	cout << "Ingrese el valor superior del intervalo: ";
+	cout << "\nIngrese el valor superior del intervalo: ";
 	cin >> xs;
-	cout << "Ingrese la tolerancia (en porcentaje): ";
+	cout << "\nIngrese la tolerancia (en porcentaje): ";
 	cin >> tol;
-	cout << "Ingrese el maximo numero de iteraciones: ";
+	cout << "\nIngrese el maximo numero de iteraciones: ";
 	cin >> n;
 	//Crear una instancia de regla falsa pasando 
 	//la funcion como parametro
@@ -188,14 +201,14 @@ void metodo_reglaFalsa(string str_f) {
 void metodo_secante(string str_f){
 	double x0, x1, tol;
 	int n;
-	cout << "Metodo de la secante" << endl;
-	cout << "Ingrese el valor de x0: ";
+
+	cout << "\nIngrese el valor de x0: ";
 	cin >> x0;
-	cout << "Ingrese el valor de x1: ";
+	cout << "\nIngrese el valor de x1: ";
 	cin >> x1;
-	cout << "Ingrese la tolerancia (en porcentaje): ";
+	cout << "\nIngrese la tolerancia (en porcentaje): ";
 	cin >> tol;
-	cout << "Ingrese el maximo numero de iteraciones: ";
+	cout << "\nIngrese el maximo numero de iteraciones: ";
 	cin >> n;
 	//Crear una instancia de secante pasando 
 	//la funcion como parametro
@@ -212,13 +225,12 @@ void metodo_newton_raphson(string str_f1, string strd_f1){
 	double x0, tol;
 	int n;
 	
-	cout << "Metodo de Newton - Raphson" << endl;
-	cout << "Funcion a evaluar: " << str_f1 << endl;
-	cout << "Ingrese el valor inicial: ";
+	cout << "\nFuncion a evaluar: " << str_f1 << endl;
+	cout << "\nIngrese el valor inicial: ";
 	cin >> x0;
-	cout << "Ingrese la tolerancia (en porcentaje): ";
+	cout << "\nIngrese la tolerancia (en porcentaje): ";
 	cin >> tol;
-	cout << "Ingrese el maximo numero de iteraciones: ";
+	cout << "\nIngrese el maximo numero de iteraciones: ";
 	cin >> n;
 	//Crear una instancia de regla falsa pasando 
 	//la funcion como parametro
@@ -235,15 +247,14 @@ void metodo_raices_multiples(string str_f1, string strd_f1, string strd2_f1){
 	double x0, tol;
 	int n;
 	
-	cout << "Metodo de Newton - Raphson para raices multiples" << endl;
-	cout << "Funcion a evaluar: " << str_f1 << endl;
-	cout << "Primera derivada: " << strd_f1 << endl;
-	cout << "Segunda derivada: " << strd2_f1 << endl;
-	cout << "Ingrese el valor inicial: ";
+	cout << "\nFuncion a evaluar: " << str_f1 << endl;
+	cout << "\nPrimera derivada: " << strd_f1 << endl;
+	cout << "\nSegunda derivada: " << strd2_f1 << endl;
+	cout << "\nIngrese el valor inicial: ";
 	cin >> x0;
-	cout << "Ingrese la tolerancia (en porcentaje): ";
+	cout << "\nIngrese la tolerancia (en porcentaje): ";
 	cin >> tol;
-	cout << "Ingrese el maximo numero de iteraciones: ";
+	cout << "\nIngrese el maximo numero de iteraciones: ";
 	cin >> n;
 	//Crear una instancia de regla falsa pasando 
 	//la funcion como parametro
@@ -253,4 +264,8 @@ void metodo_raices_multiples(string str_f1, string strd_f1, string strd2_f1){
 	solucion sol = nr.calcular(x0,tol,n);
 	
 	sol.imprimir();
+}
+
+void metodo_muller(){
+	
 }
