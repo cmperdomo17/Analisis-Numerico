@@ -51,7 +51,7 @@ namespace raices {
 			
 			solucion sol;
 			//Paso 1
-			int i = 1;
+			int & i = sol.iteraciones = 1;
 			//Paso 2
 			double xAnt = (xa + xb)/2.0f;
 			
