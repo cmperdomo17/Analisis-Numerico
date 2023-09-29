@@ -1,0 +1,44 @@
+Tema: Ajustes de Curvas
+
+--- Marcas mundiales (damas)
+
+    Peso corporal: 48kg, Peso levantado: 98kg
+    Peso corporal: 53kg, Peso levantado: 103kg
+
+    * Peso corporal: 56kg, Peso levantado: 108kg
+
+    Peso corporal: 58kg, Peso levantado: 112kg
+
+--- Marcas mundiales (hombres)
+
+    Peso corporal: 56kg, Peso levantado: 171kg
+    Peso corporal: 62kg, Peso levantado: 183kg
+    Peso corporal: 69kg, Peso levantado: 198kg
+
+Regresión por minimos cuadrados
+
+Si el peso corporal (x) = 56kg, reemplazamos:
+Peso levantado(y) = 0,86 * (56) + 60,832 = 48,16 + 60,832 = 108,992kg
+
+1. Dados n+1 puntos de R^2
+    (x_0, y_0), (x_1, y_1), ..., (x_n, y_n)
+    Hay que aplicar el criterio de los minimos cuadrados(busca aproximar una curva que pase por todos los puntos)
+
+2. Donde hay gran exactitud en los datos, se ajusta una curva que pasa por todos los puntos
+    A esto se le conoce como interpolación (busca minimizar o llevar a 0 el grado de error)
+
+3. interpolación: se ajusta una curva que pasa por todos los puntos dentro de un intervalo de datos
+   extrapolación: se ajusta una curva que pasa por puntos fuera del intervalo de datos
+
+
+Correlación: Da una cuantificación (coeficiente de Correlación lineal de Pearson) de la relación entre dos variables
+    
+    -1 <= r <= 1
+    r = 1: correlación positiva perfecta
+    r = -1: correlación negativa perfecta
+    r = 0: no hay correlación
+
+Un modelo de regresión es un modelo que permite describir como influye una variable x sobre una variable y
+Su objetivo es encontrar una función f(x) que describa la relación entre x e y
+Cuantificamos la relación entre x e y mediante un modelo de regresión lineal
+
