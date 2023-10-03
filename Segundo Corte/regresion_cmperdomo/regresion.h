@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iomanip>
 #include <cmath>
 
 using std::string;
@@ -12,11 +13,29 @@ using std::vector;
 using std::cout;
 using std::endl;
 using std::move;
+using std::setw;
+using std::setprecision;
+using std::left;
+using std::right;
 
 namespace regresion{
     /**
+     * @brief Repite una cadena de caracteres
+     * @param s Cadena a repetir
+     * @param n Cantidad de repeteciones
+     * @return Concatenacion de s n veces
+    */
+    string str_repeat(string s, int n){
+        string ret = "";
+        for(int i = 0; i < n; i++){
+            ret += s;
+        }
+        return ret;
+    }
+
+    /**
      * @brief Solucion mediante Regresion Lineal Simple
-     */
+    */
     struct solucion_lineal{
         double b0 = NAN; /*!<Termino independiente de la recta */
         double b1 = NAN; /*!< Coeficiente de X */
@@ -31,24 +50,26 @@ namespace regresion{
          *
          */
          void imprimir(){
-             cout << "\nRecta de regresion: \n"
-                 << "\ny = " << b1 << "*x "
+
+            string aceptable = (syx < sy) ? "La aproximacion se considera aceptable" : "La aproximacion NO se considera aceptable";
+
+             cout << "Recta de regresion: \n"
+                 << "\ny = " << b1 << " * x "
                  << ((b0 >= 0.0f)? " + " : " - ")
                  << fabs(b0)
                  << "\n"
                  << endl   
-                 << " Desviacion estandar: "
+                 << "Desviacion estandar: "
                  << sy
                  << "\n"
                  << endl
-                 << " Error estandar de aproximacion: "
+                 << "Error estandar de aproximacion: "
                  << syx
                  << "\n"
+                 << aceptable
                  << endl
-                 << " Coeficiente de determinacion: "
+                 << "Coeficiente de determinacion: "
                  << r2
-                 << endl
-                 << "\n"
                  << endl;
          }
     };
@@ -60,13 +81,30 @@ namespace regresion{
      * @param x_label Etiqueta de la variable independiente
      * @param y_label Etiqueta de la variable dependiente
      */
-    void imprimir_tabla(
-            vector<double> X,
-            vector<double> y,
-            string x_label = "X",
-            string y_label = "Y"){
-        // TODO : Imprimir la tabla
-    }
+    void imprimir_tabla(vector<double> x, vector<double> y, string x_label = "", string y_label = "") {
+
+        if (x_label.empty()) {
+            x_label = "X";
+        }
+
+        if (y_label.empty()) {
+            y_label = "Y";
+        }
+
+        size_t x_width = x_label.length() + 4;
+        size_t y_width = y_label.length() + 4;
+        
+        cout << "\n";
+        cout << str_repeat("=", x_width + y_width + 2) << endl;
+        cout << setw(x_width) << left << x_label << setw(y_width) << right << y_label << endl;
+        cout << str_repeat("=", x_width + y_width + 2) << endl;
+
+        for (size_t i = 0; i < x.size(); i++) {
+            cout << setw(x_width) << left << x[i] << setw(y_width) << right << y[i] << endl;
+        }
+        cout << str_repeat("=", x_width + y_width + 2) << endl;
+        cout << "\n";
+        }
 
     class lineal_simple{
     public:
@@ -134,5 +172,4 @@ namespace regresion{
         vector<double> y; /*!< Variable dependiente */
     };
 }
-
 #endif
