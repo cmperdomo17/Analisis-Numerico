@@ -6,12 +6,14 @@ using std::cout;
 using std::endl;
 using std::vector; 
 
-using regresion::solucion_lineal;
 using regresion::lineal_simple;
-using regresion::solucion_potencia;
 using regresion::exponencial;
-using regresion::solucion_exponencial;
 using regresion::potencia;
+
+using regresion::solucion_lineal;
+using regresion::solucion_potencia;
+using regresion::solucion_exponencial;
+
 using regresion::imprimir_tabla;
 
 /**
