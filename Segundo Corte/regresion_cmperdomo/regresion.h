@@ -17,8 +17,10 @@ using std::setw;
 using std::setprecision;
 using std::left;
 using std::right;
+using std::to_string;
 
 namespace regresion{
+
     /**
      * @brief Repite una cadena de caracteres
      * @param s Cadena a repetir
@@ -32,6 +34,13 @@ namespace regresion{
         }
         return ret;
     }
+
+    int getCenteredWidth(size_t label_length, int value) {
+        size_t value_length = to_string(value).length();
+        return (label_length - value_length) / 2 + value_length;
+    }
+
+
 
     /**
      * @brief Solucion mediante Regresion Lineal Simple
@@ -74,6 +83,63 @@ namespace regresion{
          }
     };
 
+
+    struct solucion_potencia
+    {
+        double c = 0.0f;        /*!<Coeficiente de la potencia*/
+        double a = 0.0f;        /*!<Factor del exponente de la potencia*/
+        solucion_lineal lineal; /*!<Regresion de los datos linealizados*/
+        /**
+         * @brief Impresion de la regresion potencia
+        */
+        void imprimir()
+        {
+            string aceptable = (lineal.syx < lineal.sy) ? "La aproximacion se considera aceptable" : "La aproximacion NO se considera aceptable";
+            cout << "Recta de regresion" << endl
+                 << "y= " << c << " *x^" << a
+                 << endl
+                 << "Desviacion estandar: " 
+                 << lineal.sy 
+                 << endl
+                 << "Error estandar de aproximacion: " 
+                 << lineal.syx
+                 << endl
+                 << aceptable
+                 << endl
+                 << "Coeficiente de determinacion: "  
+                 << lineal.r2 
+                 << endl;
+        }
+    };
+
+    struct solucion_exponencial
+    {
+        double c = 0.0f;        /*!<Coeficiente de la potencia*/
+        double a = 0.0f;        /*!<Factor del exponente de la potencia*/
+        solucion_lineal lineal; /*!<Regresion de los datos linealizados*/
+        /**
+         * @brief Impresion de la regresion potencia
+        */
+        void imprimir()
+        {
+            string aceptable = (lineal.syx < lineal.sy) ? "La aproximacion se considera aceptable" : "La aproximacion NO se considera aceptable";
+            cout << "Recta de regresion" << endl
+                 << "y= " << c << " *e^" << a << "*x"
+                 << endl
+                 << "Desviacion estandar: " 
+                 << lineal.sy 
+                 << endl
+                 << "Error estandar de aproximacion: " 
+                 << lineal.syx
+                 << endl
+                 << aceptable
+                 << endl
+                 << "Coeficiente de determinacion: "  
+                 << lineal.r2 
+                 << endl;
+        }
+    };
+
     /**
      * Imprime una tabla de datos
      * @param X  variable independiente
@@ -93,17 +159,23 @@ namespace regresion{
 
         size_t x_width = x_label.length() + 4;
         size_t y_width = y_label.length() + 4;
-        
+
         cout << "\n";
         cout << str_repeat("=", x_width + y_width + 2) << endl;
-        cout << setw(x_width) << left << x_label << setw(y_width) << right << y_label << endl;
+
+        cout << "  " << setw(x_width) << left << x_label << setw(y_width/4) << right << y_label << endl;
+
         cout << str_repeat("=", x_width + y_width + 2) << endl;
 
         for (size_t i = 0; i < x.size(); i++) {
-            cout << setw(x_width) << left << x[i] << setw(y_width) << right << y[i] << endl;
+            int x_space = getCenteredWidth(x_width, x[i]);
+            int y_space = getCenteredWidth(y_width, y[i]);
+
+            cout << setw(x_space) << right << x[i] << setw(x_width - x_space + y_space) << right << y[i] << endl;
         }
         cout << str_repeat("=", x_width + y_width + 2) << endl;
         cout << "\n";
+
         }
 
     class lineal_simple{
@@ -170,6 +242,104 @@ namespace regresion{
     private:
         vector<double> x; /*!< Variable independiente */
         vector<double> y; /*!< Variable dependiente */
+    };
+
+
+    /**
+     * @brief Regresion linealizada mediante la funcion potencia
+    */
+    class potencia{
+    
+    public:
+        /**
+         * @brief Crea una nueva instancia de regresion mediante funcion potencia
+        */
+        potencia(vector<double> p_x, vector<double> p_y):x(p_x), y(p_y){
+        }
+
+        /**
+         * @brief Calcula la regresion linealizada mediante la funcion potencia
+         * @return Solucion linealizada
+        */
+        solucion_potencia calcular(){
+
+            solucion_potencia sol;
+
+            vector<double> X(x);
+            vector<double> Y(y);
+
+            for(unsigned int i = 0; i < X.size(); i++){
+                X[i] = log10(X[i]);
+                Y[i] = log10(Y[i]);
+            }
+
+            // Crear un modelo de regresion lineal con los datos transformados
+            lineal_simple ls(X, Y);
+
+            // Calcular la regresion lineal con los datos transformados
+            sol.lineal = ls.calcular();
+
+            // Calcular A
+            sol.a = sol.lineal.b1;
+
+            // Calcular C
+            sol.c = pow(10.0f, sol.lineal.b0);
+
+            return sol;
+
+        }
+
+    private:
+        vector<double> x; /*!< Variable independiente */
+        vector<double> y; /*!< Variable dependiente */   
+    };
+
+    /**
+     * @brief Regresion linealizada mediante la funcion potencia
+    */
+    class exponencial{
+    
+    public:
+        /**
+         * @brief Crea una nueva instancia de regresion mediante funcion exponencial
+        */
+        exponencial(vector<double> p_x, vector<double> p_y):x(p_x), y(p_y){
+        }
+
+        /**
+         * @brief Calcula la regresion linealizada mediante la funcion potencia
+         * @return Solucion linealizada
+        */
+        solucion_exponencial calcular(){
+
+            solucion_exponencial sol;
+
+            vector<double> X(x);
+            vector<double> Y(y);
+
+            for(unsigned int i = 0; i < Y.size(); i++){
+                Y[i] = log(Y[i]);
+            }
+
+            // Crear un modelo de regresion lineal con los datos transformados
+            lineal_simple ls(x, Y);
+
+            // Calcular la regresion lineal con los datos transformados
+            sol.lineal = ls.calcular();
+
+            // Calcular A
+            sol.a = sol.lineal.b1;
+
+            // Calcular C
+            sol.c = exp(sol.lineal.b0);
+
+            return sol;
+
+        }
+
+    private:
+        vector<double> x; /*!< Variable independiente */
+        vector<double> y; /*!< Variable dependiente */   
     };
 }
 #endif

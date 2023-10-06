@@ -29,7 +29,7 @@ using raices::secante;
 using raices::solucion;
 
 void ejercicio_2();
-void ejercicio_1();
+void ejercicio_1_lineal();
 void imprimir_aproximaciones(vector<pair<string, solucion>> soluciones, string funcstr);
 void metodo_biseccion(string fstr);
 void metodo_reglaFalsa(string fstr);
@@ -51,7 +51,7 @@ int main()
         switch (opcion)
         {
         case 1:
-            ejercicio_1();
+            ejercicio_1_lineal();
             break;
         case 2:
             ejercicio_2();
@@ -69,7 +69,7 @@ int main()
     return 0;
 }
 
-void ejercicio_1()
+void ejercicio_1_lineal()
 {
     int metodo;
     
