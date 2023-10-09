@@ -9,10 +9,12 @@ using std::vector;
 using regresion::lineal_simple;
 using regresion::exponencial;
 using regresion::potencia;
+using regresion::cuadratica;
 
 using regresion::solucion_lineal;
 using regresion::solucion_potencia;
 using regresion::solucion_exponencial;
+using regresion::solucion_cuadratica;
 
 using regresion::imprimir_tabla;
 
@@ -40,6 +42,13 @@ void caso_1_potencia();
  * @brief Caso 1 - Regresion linealizada mediante la funcion exponencial
 */
 void caso_1_exponencial();
+
+
+/**
+ * @brief Caso 1 - Regresion cuadratica
+*/
+void caso_1_cuadratica();
+
 
 
 /**
@@ -75,6 +84,17 @@ void caso_regresion_potencia(vector <double> x, vector <double> y, string title,
 void caso_regresion_exponencial(vector <double> x, vector <double> y, string title, string x_label = "", string y_label = "");
 
 /**
+ * @brief Ejecuta un caso de regresion cuadratica
+ * @param x Vector de la variable independiente
+ * @param y Vector de la variable dependiente
+ * @param titulo Titulo de la regresion
+ * @param x_label Etiqueta de la variable independiente
+ * @param y_label Etiqueta de la variable dependiente
+*/
+void caso_regresion_cuadratica(vector <double> x, vector <double> y, string title, string x_label = "", string y_label = "");
+
+
+/**
  * @brief Ejercicio 1
 */
 void ejercicio_1_lineal();
@@ -97,7 +117,7 @@ int main();
 int main(){
     // Menú principal:
     int opcion = 0;
-    while(opcion != 9){
+    while(opcion != 10){
         cout << "\n---------------- Menu principal ----------------\n" << endl;
         cout << "1. Caso 1." << endl;
         cout << "2. Caso 1. Snatch damas." << endl;
@@ -107,7 +127,8 @@ int main(){
         cout << "6. Ejercicio 3: Errores en Software." << endl;
         cout << "7. Caso 1. Potencia." << endl;
         cout << "8. Caso 1. Exponencial." << endl;
-        cout << "9. Salir." << endl;
+        cout << "9. Caso 1. Cuadratica." << endl;
+        cout << "10. Salir." << endl;
         cout << "\nIngrese una opcion: ";
         std::cin >> opcion;
 
@@ -137,6 +158,9 @@ int main(){
                 caso_1_exponencial();
                 break;
             case 9:
+                caso_1_cuadratica();
+                break;
+            case 10:
                 cout << "Saliendo..." << endl;
                 break;
             default:
@@ -208,6 +232,18 @@ void caso_regresion_exponencial(vector <double> x, vector <double> y, string tit
     sol.imprimir();
 }
 
+void caso_regresion_cuadratica(vector <double> x, vector <double> y, string title, string x_label, string y_label){
+    // Imprime el titulo del caso
+    cout << title << endl;
+
+    // Imprimir la tabla
+    imprimir_tabla(x, y, x_label, y_label);
+    cuadratica reg_cua(x,y);
+    solucion_cuadratica sol = reg_cua.calcular();
+
+    sol.imprimir();
+}
+
 // Ejemplos sobre regresion Lineal
 
 void ejercicio_1_lineal(){
@@ -244,4 +280,11 @@ void caso_1_exponencial(){
     vector<double> y = {930.0f, 815.0f, 632.0f, 487.0f, 370.0f, 265.0f, 147.0f, 76.0f, 17.0f};  
 
     caso_regresion_exponencial(x, y, "\nCaso 1. Exponencial", "X", "Y");
+}
+
+void caso_1_cuadratica(){
+    vector<double> x = {0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0};
+    vector<double> y = {2.1f, 7.7f, 13.6f, 27.2f, 40.9f, 61.1f};
+
+    caso_regresion_cuadratica(x, y, "\nCaso 1. Cuadratica", "X", "Y");
 }

@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <cmath>
 
+#include "util.h"
+
 using std::string;
 using std::vector;
 using std::cout;
@@ -18,6 +20,8 @@ using std::setprecision;
 using std::left;
 using std::right;
 using std::to_string;
+
+using util::gauss;
 
 namespace regresion{
 
@@ -83,7 +87,9 @@ namespace regresion{
          }
     };
 
-
+    /**
+     * @brief Solución Potencia
+    */
     struct solucion_potencia
     {
         double c = 0.0f;        /*!<Coeficiente de la potencia*/
@@ -112,6 +118,9 @@ namespace regresion{
         }
     };
 
+    /**
+     * @brief Solución exponente
+    */
     struct solucion_exponencial
     {
         double c = 0.0f;        /*!<Coeficiente de la potencia*/
@@ -137,6 +146,50 @@ namespace regresion{
                  << "Coeficiente de determinacion: "  
                  << lineal.r2 
                  << endl;
+        }
+    };
+
+    /**
+     * @brief Solución cuadrática
+    */
+    struct solucion_cuadratica{
+
+        double a0 = 0.0f; /*!< Termino independiente del polinomio cuadratico */
+        double a1 = 0.0f; /*!< Coeficiente de x del polinomio cuadratico */
+        double a2 = 0.0f; /*!< Coeficiente de x^2 del polinomio cuadratico */
+        double st = 0.0f; /*!< Sumatoria de la diferencia cuadratica entre el valor medido y el promedio */
+        double sr = 0.0f; /*!< Sumatoria de la diferencia cuadratica entre cada y con el y estimado */
+        double sy = 0.0f; /*!< Desviacion estandar */
+        double syx = 0.0f; /*!< Error estandar de aproximacion */
+        double r2 = 0.0f; /*!< Coeficiente de determinacion */
+        size_t n; /*!< Numero de datos */
+
+        /**
+         * @brief Impresion de la regresion cuadratica
+        */
+        void imprimir(){
+
+            string aceptable = (syx < sy) ? "La aproximacion se considera aceptable" : "La aproximacion NO se considera aceptable";
+            
+            cout << "Polinomio de regresion: \n"
+            << "y = " << a2 << " * x^2 "
+            << ((a1 >= 0.0f)? " + " : " - ")
+            << fabs(a1) << "x"
+            << ((a0 >= 0.0f)? " + " : " - ")
+            << fabs(a0)
+            << "\n"
+            << endl
+            << "Desviacion estandar: "
+            << sy
+            << "\n"
+            << endl
+            << "Error estandar de aproximacion: "
+            << syx
+            << "\n"
+            << endl
+            << "Coeficiente de determinacion: "
+            << r2
+            << endl;
         }
     };
 
@@ -340,6 +393,106 @@ namespace regresion{
     private:
         vector<double> x; /*!< Variable independiente */
         vector<double> y; /*!< Variable dependiente */   
+    };
+
+    /**
+     * @brief Regresion cuadratica
+    */
+    class cuadratica{
+
+        public:
+            cuadratica(vector<double> p_x, vector<double> p_y):x(p_x), y(p_y){
+            };
+            /**
+             * @brief Calcula el polinomio de regresion de grado 2
+             * @return Polinomio de solucion.
+            */
+            solucion_cuadratica calcular(){
+                
+                solucion_cuadratica sol;
+                size_t i;
+
+                double sum_x{0}, sum_x2{0}, sum_x3{0}, sum_x4{0};
+                double sum_y{0}, sum_xy{0}, sum_x2y{0};
+                double y_prom;
+
+                sol.n = x.size();
+
+                // La regresion cuadratica se calcula con al menos 4 puntos
+                if (sol.n <= 3){
+                    return sol;
+                }
+
+                for(i=0; i<sol.n; i++){
+                    sum_x += x[i];
+                    double x2 = pow(x[i], 2.0f);
+                    sum_x2 += x2;
+                    sum_x3 += pow(x[i], 3.0f);
+                    sum_x4 += pow(x[i], 4.0f);
+                    sum_y += y[i];
+                    sum_xy += x[i] * y[i];
+                    sum_x2y += x2 * y[i];
+                }
+
+                // Calcular y_prom
+                y_prom = sum_y / (double)sol.n;
+
+                
+
+                /*
+                cout << "sum_x: " << sum_x << endl;
+                cout << "sum_x2: " << sum_x2 << endl;
+                cout << "sum_x3: " << sum_x3 << endl;
+                cout << "sum_x4: " << sum_x4 << endl;
+                cout << "sum_y: " << sum_y << endl;
+                cout << "sum_xy: " << sum_xy << endl;
+                cout << "sum_x2y: " << sum_x2y << endl;
+                */
+
+                vector <vector<double>> m {
+                    {(double)sol.n, sum_x, sum_x2, sum_y},
+                    {sum_x, sum_x2, sum_x3, sum_xy},
+                    {sum_x2, sum_x3, sum_x4, sum_x2y}
+                };
+                
+                // Hallar a0, a1 y a2 mediante eliminacion de Gauss
+                vector <double> coef = gauss(m);
+
+                //Imprimir los coeficientes
+
+                sol.a0 = coef[0];
+                sol.a1 = coef[1];
+                sol.a2 = coef[2];
+
+                // Calcular st
+                sol.st = 0.0f;
+                for(i=0; i<sol.n; i++){
+                    sol.st += pow(y[i] - y_prom, 2.0f);
+                }
+
+                // Calcular sy
+                sol.sy = sqrt(sol.st / (double)(sol.n - 1));  
+
+               	//Calcular sr
+			    sol.sr = 0.0f;
+                for(size_t i = 0; i<sol.n; i++) {
+                    sol.sr += pow(y[i] - sol.a0 - (sol.a1*x[i]) - (sol.a2*pow(x[i], 2.0f)) , 2.0f);
+                }
+			
+                //Calcular sxy
+                if(sol.n > 2) {
+                    sol.syx = sqrt(sol.sr/(double)(sol.n - 3));
+                }
+			
+                //Calcular r2
+                sol.r2 = (sol.st - sol.sr)/sol.st;
+                
+                return sol;
+
+            }
+        private:
+            vector<double> x; /*!< Variable independiente */
+            vector<double> y; /*!< Variable dependiente */
     };
 }
 #endif
