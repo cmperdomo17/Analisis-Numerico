@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief Biblioteca de utilidades
+ * @author Carlos Mario Perdomo Ramos <cmperdomo@unicauca.edu.co>
+*/
+
 #ifndef UTIL_H
 #define UTIL_H
 

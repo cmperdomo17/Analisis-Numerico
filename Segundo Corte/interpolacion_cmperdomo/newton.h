@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief Interpolación mediante el método de diferencias divididas de Newton
+ * @author Carlos Mario Perdomo Ramos <cmperdomo@unicauca.edu.co>
+*/
+
 #ifndef NEWTON_H
 #define NEWTON_H
 
