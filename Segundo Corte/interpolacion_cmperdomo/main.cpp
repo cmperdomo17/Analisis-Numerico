@@ -3,6 +3,7 @@
 #include "lagrange.h"
 #include "newton.h"
 #include "util.h"
+#include "spline3.h"
 
 using std::cout;
 using std::cin;
@@ -12,12 +13,16 @@ using std::vector;
 using interpolacion::newton;
 using interpolacion::lagrange;
 using util::imprimir_tabla;
+using interpolacion::spline3;
 
 /** @brief Caso 1 Newton - Diapositivas */
 void caso_1_newton();
 
 /** @brief Caso 1 Lagrange - Diapositivas */
 void caso_1_lagrange();
+
+/** @brief Caso 1 Trazadores Cubicos */
+void caso_1_spline3();
 
 int main(){
     // Menu para comparar los metodos de interpolacion de Newton y Lagrange con el caso 1
@@ -28,6 +33,7 @@ int main(){
         cout << "\n ------ Metodos de Interpolacion ------\n" << endl;
         cout << "1. Caso 1 Newton" << endl;
         cout << "2. Caso 1 Lagrange" << endl;
+        cout << "3. Caso 1 Trazadores Cubicos" << endl;
         cout << "0. Salir" << endl;
         cout << "\nIngrese una opcion: ";
         cin >> opcion;
@@ -38,6 +44,9 @@ int main(){
                 break;
             case 2:
                 caso_1_lagrange();
+                break;
+            case 3:
+                caso_1_spline3();
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
@@ -123,7 +132,41 @@ void caso_1_lagrange(){
     
 }
 
+void caso_1_spline3(){
+    
+    vector <double> x = {
+        3.0f, 4.5f, 7.0f, 9.0f
+    };
 
+    vector <double> y = {
+        2.5f, 1.0f, 2.5f, 0.5f
+    };
+
+    // Instancia de Trazador Cubico
+    spline3 s3(x, y);
+
+    // Imprimir el polinomio
+    // cout << "Polinomio interpolante: " << l.polinomio() << endl;
+
+    // Valor a interpolar
+    double x_int;
+
+    cout << "\nInterpolacion mediante el metodo de Trazadores Cubicos" << endl;
+
+    // Imprimir la tabla
+    imprimir_tabla(x, y, "  x  ", "  f(x)  ");
+    // Solicitar el valor a interpolar
+    do{
+        cout << "Ingrese el valor a interpolar: ";
+        cin >> x_int;
+    } while(x_int < x[0] || x_int > x[x.size() - 1]);
+
+    // Interpolar el valor ingresado por el usuario
+    double y_int = s3.interpolar(x_int);
+
+    cout << "\ny = " << setprecision(7) << y_int << endl;
+    
+}
 
 
 

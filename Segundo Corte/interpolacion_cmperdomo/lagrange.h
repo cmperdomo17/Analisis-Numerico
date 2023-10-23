@@ -12,6 +12,8 @@
 #include <sstream>
 #include <string>
 
+using std::cout;
+using std::endl;
 using std::vector;
 using std::string;
 using std::ostringstream;
@@ -24,7 +26,7 @@ namespace interpolacion {
         */
         public:
             /**
-             * @brief Cronstuye una instancia del metodo de Lagrange
+             * @brief Construye una instancia del metodo de Lagrange
              * @param p_x Variable independiente, valores de x
              * @param p_y Variable dependiente, valores de y
             */
@@ -46,7 +48,7 @@ namespace interpolacion {
              * @param grado Grado del polinomio p(x)
              * @return Valor interpolado
             */
-            double interpolar(double x_int, int grado){ 
+            double interpolar(double x_int, int grado){              
 
                 // TODO: Implementar la interpolacion con un grado menor que n
                 // ? 0. Encontrar las posiciones de x_int dentro de los datos
@@ -63,23 +65,7 @@ namespace interpolacion {
                 // ?    2.4. error_int_2 = calcular_error_interpolacion(x_int, posInicial + 1, posFinal + 1)
                 // ?    2.5. Si abs(error_int_1) < abs(error_int_2) return yInt_1
                 // ?    2.6. Si no return yInt_2
-
-                int n_puntos = grado + 1;
-                int pos_inicial = 0;
-                int pos_final = 0;
-                int i;
-
-                for (i = 0; i < x.size(); i++) {
-                    if (x[i] <= x_int) {
-                        pos_inicial = i;
-                    }
-                    if (x[i] >= x_int) {
-                        pos_final = i;
-                        break;
-                    }
-                }
-
-                return NAN;
+                
             }
 
             /**
@@ -88,6 +74,7 @@ namespace interpolacion {
              * @return Valor interpolado
             */
             double interpolar(double x_int, int pos_inicial, int pos_final){
+
                 double resultado = 0.0f;
                 int j, k, n;
                 n = x.size();

@@ -32,6 +32,8 @@ namespace interpolacion{
             newton(vector<double> p_x, vector<double> p_y):x(p_x),y(p_y){
                 calcular_coeficientes();
             }
+            
+            // TODO: Implementar metodo publico static para calcular los coeficientes y usarlo en spline
 
             /**
              * @brief Construye y retorna el polinomio interpolante

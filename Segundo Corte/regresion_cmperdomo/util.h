@@ -10,7 +10,6 @@ using std::vector;
 */
 namespace util{
 
-
     /**
      * @brief Eliminacion de Gauss para una matriz de reales
      * @param m Matriz de reales
