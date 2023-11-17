@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+#include "expression.h"
+
 using std::setprecision;
 using std::setw;
 using std::left;
@@ -119,6 +121,35 @@ namespace util{
         resultado[i] = resultado[i] / m[i][i];
         }
         return resultado;
+        }
+        
+        /**
+        * @brief Construye una tabla de datos espaciados uniformemente.
+        * @param x Referencia al vector donde se almacenaran los valores de x.
+        * @param y Referencia al vector donde se almacenaran los valores de y.
+        * @param a Limite inferior.
+        * @param b Limite superios.
+        * @param n Cantidad de segmentos.
+        * @param str_fn Texto de la funcion a evaluar.
+        */
+        void crear_tabla(vector<double> &x, vector<double> &y, double a , double b, int n, string str_fn) {
+            //Crear el evaluardor
+            Expression f(str_fn);
+            
+            //Reservar espacio para la cantidad requerida de segmentos
+            x.resize(n+1);
+            y.resize(n+1);
+            
+            //Calcular el paso
+            double h = (b-a)/(double)n;
+            
+            double xi=a;
+            
+            for(int i=0; i<=n; i++) {
+                x[i]=xi;
+                y[i]=f(xi);
+                xi+=h;
+            }
         }
 }
 
