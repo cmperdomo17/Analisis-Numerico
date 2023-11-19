@@ -51,7 +51,7 @@ namespace integracion{
 				return calcular(x, y);
 			}
 			
-			double calcular(vector<double> &x, vector<double> &y) {
+			static double calcular(vector<double> &x, vector<double> &y) {
 				size_t n = x.size() - 1;
 				if (n <= 0 || n % 2 == 0 || n % 3 != 0) {
 					return NAN;

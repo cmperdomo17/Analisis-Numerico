@@ -17,6 +17,7 @@ using util::crear_tabla;
 using integracion::trapecio;
 using integracion::simpson13;
 using integracion::simpson38;
+using integracion::simpson;
 using util::imprimir_tabla;
 
 /**
@@ -49,6 +50,14 @@ void calculo_simpson13(string title, string str_fn, double a, double b, int n);
 */
 void calculo_simson38(string title, string str_fn, double a, double b, int n);
 
+/**
+ * @brief Integración usando el método de Simpson
+ * @param title Título del caso de prueba
+ * @param x Vector de valores de x
+ * @param y Vector de valores de y
+*/
+void caso_simpson(string title, vector<double> &x, vector<double> &y);
+
 /** @brief Caso 1 - Método del Trapecio */
 void caso_1_trapecio();
 
@@ -58,17 +67,21 @@ void caso_1_simpson13();
 /** @brief Caso 1 - Metodo Simpson 3/8 */
 void caso_1_simpson38();
 
+/** @brief Caso 1 - Metodo Simpson */
+void caso_1_simpson();
+
 int main(){
     // Menu principal para pedir que caso usar
     int opcion;
 
     do{
-        cout << "========================================" << endl;
+        cout << "\n========================================" << endl;
         cout << "Integracion Numerica" << endl;
         cout << "========================================" << endl;
         cout << "1. Metodo del Trapecio" << endl;
         cout << "2. Metodo de Simpson 1/3" << endl;
         cout << "3. Metodo de Simpson 3/8" << endl;
+        cout << "4. Metodo de Simpson" << endl;
         cout << "0. Salir" << endl;
         cout << "========================================" << endl;
         cout << "Ingrese una opcion: ";
@@ -83,6 +96,9 @@ int main(){
                 break;
             case 3:
                 caso_1_simpson38();
+                break;
+            case 4:
+                caso_1_simpson();
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
@@ -187,7 +203,7 @@ void calculo_simpson13(string title, string str_fn, double a, double b, int n){
     // Calcular el valor de la integral
     double valor = s.calcular(x,y);
     // Mostrar el resultado
-    cout << "Valor de la integral entre " << a << " y " << b << ": " << setprecision(8) << valor << "\n" << endl;
+    cout << "Valor de la integral entre " << a << " y " << b << ": " << setprecision(8) << valor << endl;
 }
 
 void calculo_simson38(string title, string str_fn, double a, double b, int n){
@@ -212,7 +228,7 @@ void calculo_simson38(string title, string str_fn, double a, double b, int n){
     // Calcular el valor de la integral
     double valor = s38.calcular(x,y);
     // Mostrar el resultado
-    cout << "Valor de la integral entre " << a << " y " << b << ": " << setprecision(8) << valor << "\n" << endl;
+    cout << "Valor de la integral entre " << a << " y " << b << ": " << setprecision(8) << valor << endl;
 }
 
 void caso_1_simpson38(){
@@ -235,4 +251,25 @@ void caso_1_simpson38(){
 
     calculo_simson38("Metodo de Simpson 3/8", str_fn, a, b, n);
 
+}
+
+void caso_simpson(string title, vector<double> &x, vector<double> &y) {
+    cout << title << ":" << " por el metodo de Simpson." << endl;
+
+    simpson s;
+
+    imprimir_tabla(x, y, "   X   ", "    Y    ");
+
+    double valor = s.calcular(x, y);
+
+    cout << "Valor del area de la tabla de datos: "
+         << valor << endl;
+}
+
+void caso_1_simpson(){
+    vector<double> x = {0.00000, 0.04706, 0.09412, 0.14118, 0.18824, 0.23529, 0.28235, 0.32941, 0.37647, 0.42353, 0.47059, 0.51765, 0.56471, 0.61176, 0.65882, 0.70588, 0.75294, 0.80000};
+    vector<double> y = {0.20000, 0.99959, 1.27640, 1.30746, 1.28600, 1.33258, 1.50611, 1.81498, 2.22811, 2.68604, 3.11198, 3.42294, 3.54075, 3.40317, 2.97498, 2.25901, 1.30727, 0.23200};
+    caso_simpson("\nCaso 1: Tabla de datos",
+                  x,
+                  y);
 }
