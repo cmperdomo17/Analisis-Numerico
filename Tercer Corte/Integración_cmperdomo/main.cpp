@@ -20,7 +20,9 @@ using integracion::simpson38;
 using integracion::trapecio;
 
 // TODO Implementar metodos de errores de funciones Polinomicas y No Polinomicas
-// TODO Los metodos se implementan en cada respectiva clase (.h)
+// TODO Los metodos (polinomica y no polinomica) se implementan en cada respectiva clase (.h)
+// TODO Polinomica solo en Simpson 1/3
+
 // * Trapecio: F2
 // * Simpson 1/3 y 3/8: F4
 
