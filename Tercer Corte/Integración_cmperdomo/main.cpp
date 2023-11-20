@@ -19,6 +19,14 @@ using integracion::simpson13;
 using integracion::simpson38;
 using integracion::trapecio;
 
+// TODO Implementar metodos de errores de funciones Polinomicas y No Polinomicas
+// TODO Los metodos se implementan en cada respectiva clase (.h)
+// * Trapecio: F2
+// * Simpson 1/3 y 3/8: F4
+
+// * Simpson 1/3: Par
+// * Simpson 3/8: Impar y multiplo de 3
+
 /**
  * @brief Integración usando el método del Trapecio
  * @param title Título del caso de prueba
@@ -272,3 +280,7 @@ void caso_1_simpson(){
                   x,
                   y);
 }
+
+// El error es x - x*
+// E = fabs(x - x*)
+// E = fabs(x) - fabs(x*) 
