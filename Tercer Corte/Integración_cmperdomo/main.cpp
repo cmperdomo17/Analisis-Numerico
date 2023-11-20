@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <string>
 #include <vector>
-#include "util.h"
-#include "trapecio.h"
 #include "simpson.h"
+#include "trapecio.h"
+#include "util.h"
 
 using std::cout;
 using std::cin;
@@ -13,12 +13,11 @@ using std::string;
 using std::vector;
 using std::setprecision;
 using util::crear_tabla;
-
-using integracion::trapecio;
+using util::imprimir_tabla;
+using integracion::simpson;
 using integracion::simpson13;
 using integracion::simpson38;
-using integracion::simpson;
-using util::imprimir_tabla;
+using integracion::trapecio;
 
 /**
  * @brief Integración usando el método del Trapecio
@@ -81,7 +80,7 @@ int main(){
         cout << "1. Metodo del Trapecio" << endl;
         cout << "2. Metodo de Simpson 1/3" << endl;
         cout << "3. Metodo de Simpson 3/8" << endl;
-        cout << "4. Metodo de Simpson" << endl;
+        cout << "4. Metodo de Simpson: Tablas de Datos" << endl;
         cout << "0. Salir" << endl;
         cout << "========================================" << endl;
         cout << "Ingrese una opcion: ";
