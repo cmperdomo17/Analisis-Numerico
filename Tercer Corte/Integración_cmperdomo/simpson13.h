@@ -1,10 +1,10 @@
 #ifndef SIMPSON13_H
 #define SIMPSON13_H
 
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cmath>
 
 #include "expression.h"
 #include "util.h"

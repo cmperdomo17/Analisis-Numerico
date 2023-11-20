@@ -1,10 +1,10 @@
 #ifndef SIMPSON38_H
 #define SIMPSON38_H
 
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cmath>
 
 #include "expression.h"
 #include "util.h"

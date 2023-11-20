@@ -14,10 +14,11 @@
 using std::string;
 using std::vector;
 
-using util::imprimir_tabla;
-using util::crear_tabla;
 using integracion::simpson13;
 using integracion::simpson38;
+using util::crear_tabla;
+using util::imprimir_tabla;
+
 
 namespace integracion{
     /**
@@ -60,7 +61,7 @@ namespace integracion{
                 double resultado2 = simpson38::calcular(x2, y2);
 
                 // Sumar los resultados de ambas integrales
-                return fabs(resultado1) + fabs(resultado2);
+                return resultado1 + resultado2;
             }
 
 
