@@ -159,6 +159,38 @@ namespace util {
             xi += h;
         }
     }
+
+    /**
+     * @brief Construye una tabla de datos espaciados uniformemente.
+     * @param x Referencia al vector donde se almacenarán los valores de x.
+     * @param y Referencia al vector donde se almacenarán los valores de y.
+     * @param a Limite inferior.
+     * @param b Limite superior.
+     * @param n Cantidad de segmentos.
+     * @param str_fn Texto de la función a evaluar.
+     */
+    void derivada(vector<double> &x, vector<double> &y) {
+
+        vector<double> dy(y.size());
+
+        for (size_t i = 0; i < y.size(); i++) {
+            if (i == 0) {
+                dy[i] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
+            } else if (i == y.size() - 1) {
+                dy[i] = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);
+            } else {
+                dy[i] = (y[i + 1] - y[i - 1]) / (x[i + 1] - x[i - 1]);
+            }
+        }
+        y = dy;
+    }
+
+    double calcular_derivadas(vector<double> &x, vector<double> &y, int ordenDerivada) {
+        for (int i = 0; i < ordenDerivada; i++) {
+            derivada(x, y);
+        }
+        return y[0];
+    }
 }
 
 #endif

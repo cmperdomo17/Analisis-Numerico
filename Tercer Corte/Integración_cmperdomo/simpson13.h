@@ -13,6 +13,7 @@ using std::string;
 using std::vector;
 
 using util::crear_tabla;
+using util::calcular_derivadas;
 
 namespace integracion {
     /**
@@ -60,6 +61,25 @@ namespace integracion {
             resultado = (h / 3.0f) * (y[0] + 4.0f * sum_impares + 2.0f * sum_pares + y[n]);
 
             return resultado;
+        }
+
+        // ? Biblioteca: mathplusplus 
+
+        // TODO Implementar metodos de errores de funciones Polinomicas y No Polinomicas
+        // TODO Los metodos (polinomica y no polinomica) se implementan en cada respectiva clase (.h)
+        // TODO Polinomica solo en Simpson 1/3
+
+        // * Simpson 1/3 y 3/8: F4
+
+        // * Simpson 1/3: Par
+
+        double error_polinomico_s13 (vector<double> &x, vector<double> &y) {
+            int orden = 4;
+            calcular_derivadas(x, y, orden);
+            double dy = *max_element(y.begin(), y.end()); 
+            double h = (x.back() - x.front()) / (double)(x.size() - 1); 
+            double error = (pow(h, 4) / 180) * dy;
+            return error;
         }
 
     private:

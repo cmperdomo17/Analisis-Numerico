@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include "romberg.h"
 #include "simpson.h"
 #include "trapecio.h"
 #include "util.h"
@@ -18,6 +19,10 @@ using integracion::simpson;
 using integracion::simpson13;
 using integracion::simpson38;
 using integracion::trapecio;
+using integracion::romberg;
+using integracion::resultado_romberg;
+
+// ? Biblioteca: mathplusplus 
 
 // TODO Implementar metodos de errores de funciones Polinomicas y No Polinomicas
 // TODO Los metodos (polinomica y no polinomica) se implementan en cada respectiva clase (.h)
@@ -60,6 +65,16 @@ void calculo_simpson13(string title, string str_fn, double a, double b, int n);
 void calculo_simson38(string title, string str_fn, double a, double b, int n);
 
 /**
+ * @brief Integración usando el método de Romberg
+ * @param title Título del caso de prueba
+ * @param str_fn Función a integrar
+ * @param a Límite inferior del intervalo
+ * @param b Límite superior del intervalo
+ * @param k Número de aproximaciones
+*/
+void calculo_romberg(string title, string str_fn, double a, double b, int k);
+
+/**
  * @brief Integración usando el método de Simpson
  * @param title Título del caso de prueba
  * @param x Vector de valores de x
@@ -79,6 +94,9 @@ void caso_1_simpson38();
 /** @brief Caso 1 - Metodo Simpson */
 void caso_1_simpson();
 
+/** @brief Caso 1 - Metodo Romberg */
+void caso_1_romberg();
+
 int main(){
     // Menu principal para pedir que caso usar
     int opcion;
@@ -91,6 +109,7 @@ int main(){
         cout << "2. Metodo de Simpson 1/3" << endl;
         cout << "3. Metodo de Simpson 3/8" << endl;
         cout << "4. Metodo de Simpson: Tablas de Datos" << endl;
+        cout << "5. Metodo de Romberg (sin(x))^2 " << endl;
         cout << "0. Salir" << endl;
         cout << "========================================" << endl;
         cout << "Ingrese una opcion: ";
@@ -108,6 +127,9 @@ int main(){
                 break;
             case 4:
                 caso_1_simpson();
+                break;
+            case 5:
+                caso_1_romberg();
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
@@ -211,8 +233,12 @@ void calculo_simpson13(string title, string str_fn, double a, double b, int n){
     imprimir_tabla(x,y, "    x    ", "    y    ");
     // Calcular el valor de la integral
     double valor = s.calcular(x,y);
+    // Calcular el error
+    double error = s.error_polinomico_s13(x,y);
     // Mostrar el resultado
     cout << "Valor de la integral entre " << a << " y " << b << ": " << setprecision(8) << valor << endl;
+    // Mostar el error
+    cout << "Error: " << setprecision(8) << error << endl;
 }
 
 void calculo_simson38(string title, string str_fn, double a, double b, int n){
@@ -283,6 +309,48 @@ void caso_1_simpson(){
                   y);
 }
 
-// El error es x - x*
-// E = fabs(x - x*)
-// E = fabs(x) - fabs(x*) 
+void caso_1_romberg(){
+
+    // Declarar las variables
+    string str_fn;
+    double a;
+    double b;
+    int k;
+
+    // Pedir los datos al usuario
+    cout << "Ingrese la funcion a integrar: ";
+    cin >> str_fn;
+    cout << "Ingrese el limite inferior: ";
+    cin >> a;
+    cout << "Ingrese el limite superior: ";
+    cin >> b;
+    cout << "Ingrese el numero de aproximaciones: ";
+    cin >> k;
+
+    calculo_romberg("Metodo de Romberg", str_fn, a, b, k);
+
+}
+
+void calculo_romberg(string title, string str_fn, double a, double b, int k){
+    cout << "========================================" << endl;
+    cout << title << endl;
+    cout << "========================================" << endl;
+    cout << "Funcion: " << str_fn << endl;
+    cout << "Limite inferior: " << a << endl;
+    cout << "Limite superior: " << b << endl;
+    cout << "Numero de aproximaciones: " << k << endl;
+    cout << "========================================" << endl;
+
+    // Crear una instancia de Romberg
+    romberg r(str_fn);
+
+    resultado_romberg res = r.calcular(a,b,k);
+
+    // Calcular el valor de la integral
+    double valor = res.valor;
+    // Calcular el error
+    double error = res.error;
+    // Mostrar el resultado y el error
+    cout << "\nValor de la integral entre " << a << " y " << b << ": \n" << setprecision(8) << valor << "\n" << endl;
+    cout << "Error: \n" << setprecision(8) << error << endl;
+}
